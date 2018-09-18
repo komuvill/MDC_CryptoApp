@@ -35,13 +35,12 @@ public class cryptoFetcher extends AsyncTask {
             System.out.println("Digital Currency Code: " + metaData.get("2. Digital Currency Code"));
 
             List<SimpelDigitalCurrencyData> digitalData = response.getDigitalData();
-            digitalData.forEach(data -> {
-                Log.d(TAG, "date:       " + data.getDateTime());
-                Log.d(TAG, "price A:    " + data.getPriceA());
-                Log.d(TAG, "price B:    " + data.getPriceB());
-                Log.d(TAG, "volume:     " + data.getVolume());
-                Log.d(TAG, "market cap: " + data.getMarketCap());
-            });
+            SimpelDigitalCurrencyData latestEntry = digitalData.get(0);
+            Log.d(TAG, "date:       " + latestEntry.getDateTime());
+            Log.d(TAG, "price A:    " + latestEntry.getPriceA());
+            Log.d(TAG, "price B:    " + latestEntry.getPriceB());
+            Log.d(TAG, "volume:     " + latestEntry.getVolume());
+            Log.d(TAG, "market cap: " + latestEntry.getMarketCap());
         } catch (AlphaVantageException e) {
             System.out.println(e.getMessage());
         }
