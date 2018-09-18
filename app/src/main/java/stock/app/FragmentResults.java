@@ -26,7 +26,7 @@ public class FragmentResults extends Fragment {
     private String TAG = "FragmentResults";
 
     /*
-        Tällä hetkellä ulos saadaan vain valuutan tunnus
+        Tällä hetkellä ulos saadaan tunnus ja hinta
      */
 
 
@@ -36,7 +36,7 @@ public class FragmentResults extends Fragment {
         super.setMenuVisibility(menuVisible);
         if(menuVisible){
             setShortCurrencyName();
-            //setTextViewPrice(); //TODO IF INVOKED, FRAGMENT WILL NOT INFLATE, FIX PLS
+            setTextViewPrice();
         }
     }
 
