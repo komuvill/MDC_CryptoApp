@@ -21,29 +21,51 @@ public class cryptoFetcher extends AsyncTask {
     int timeout = 3000;
     AlphaVantageConnector apiConnector = new AlphaVantageConnector(apiKey, timeout);
     DigitalCurrencies digitalCurrencies = new DigitalCurrencies(apiConnector);
+    private Map<String, String> metaData;
+    private SimpelDigitalCurrencyData latestEntry;
+    private boolean isFinished = false;
 
     public cryptoFetcher(String currency){
         this.selectedCurrency = currency;
     }
 
+    //TODO GET TO onPostExecute AND CALL setViewPager method
+
+    /*
+        Paras olis ehkä muuttaa tämä luokka normaaliksi Threadiksi, koska FragmentResult:ia ei voi
+        asettaa näkyväksi ennen, kuin query on suoritettu ja tiedot ovat saatavilla. En tiiä.
+     */
     @Override
     protected Object doInBackground(Object[] objects) {
         try {
             IntraDay response = digitalCurrencies.intraDay(selectedCurrency, Market.EUR);
-            Map<String, String> metaData = response.getMetaData();
+            metaData = response.getMetaData();
             System.out.println("Information: " + metaData.get("1. Information"));
             System.out.println("Digital Currency Code: " + metaData.get("2. Digital Currency Code"));
-
             List<SimpelDigitalCurrencyData> digitalData = response.getDigitalData();
-            SimpelDigitalCurrencyData latestEntry = digitalData.get(0);
+            latestEntry = digitalData.get(0);
             Log.d(TAG, "date:       " + latestEntry.getDateTime());
             Log.d(TAG, "price A:    " + latestEntry.getPriceA());
             Log.d(TAG, "price B:    " + latestEntry.getPriceB());
             Log.d(TAG, "volume:     " + latestEntry.getVolume());
             Log.d(TAG, "market cap: " + latestEntry.getMarketCap());
+            isFinished = true;
         } catch (AlphaVantageException e) {
             System.out.println(e.getMessage());
         }
-        return null;
+        return objects;
+    }
+
+    public boolean getFinishedStatus(){
+        return isFinished;
+    }
+
+    public String getCurCode(){
+        isFinished = false;
+        return metaData.get("2. Digital Currency Code");
+    }
+
+    public String getCurrentPrice(){
+        return String.valueOf(latestEntry.getPriceA());
     }
 }

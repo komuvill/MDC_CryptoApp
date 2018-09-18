@@ -15,14 +15,15 @@ public class FragmentMenu extends Fragment {
 
     private Button buttonSearch;
     private Button buttonQuit;
+    private String TAG = "FragmentMenu";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
+        Log.d(TAG, "Started.");
         buttonSearch = view.findViewById(R.id.buttonSearchMenu);
         buttonQuit = view.findViewById(R.id.buttonQuit);
-        Log.d("MENU", "ON FRAGMENT MENU");
 
         buttonSearch.setOnClickListener(new View.OnClickListener(){
             @Override

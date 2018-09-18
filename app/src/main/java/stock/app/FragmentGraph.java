@@ -14,13 +14,14 @@ import android.widget.Button;
 public class FragmentGraph extends Fragment {
 
     private Button buttonBack;
+    private String TAG = "FragmentGraph";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_graph, container, false);
         buttonBack = view.findViewById(R.id.buttonBackToResult);
-        Log.d("GRAPH", "ON FRAGMENT GRAPH");
+        Log.d(TAG, "Started.");
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override

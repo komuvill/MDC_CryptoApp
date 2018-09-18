@@ -2,6 +2,7 @@ package stock.app;
 
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,25 +13,47 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.Objects;
 
 public class FragmentSearch extends Fragment {
 
     private Button buttonSearch;
     private Button buttonBack;
+    private EditText editText;
+    private String TAG = "FragmentSearch";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+        Log.d(TAG, "Started.");
         buttonSearch = view.findViewById(R.id.buttonSearch);
         buttonBack = view.findViewById(R.id.buttonBackToMenu);
-        Log.d("SEARCH", "ON FRAGMENT SEARCH");
+        editText = view.findViewById(R.id.editText);
 
         buttonSearch.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 //TODO Send query to the API
-                ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_RESULTS);
+                String symbol = editText.getText().toString();
+                ((MainActivityTemp)getActivity()).fetcher = (cryptoFetcher) new cryptoFetcher(symbol).execute();
+
+                //Wait for the CryptoFetcher to finish work
+
+                /*
+                    TODO THIS IS BAD, CHANGE THE CRYPTOFETCHER CLASS SO THAT IS INVOKES onPostExecute
+                    T: MIKKO
+                 */
+                while(!((MainActivityTemp)getActivity()).fetcher.getFinishedStatus()){
+                    if(((MainActivityTemp)getActivity()).fetcher.getFinishedStatus()){
+                        ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_RESULTS);
+                        break;
+                    }
+                }
+
+                //Hide keyboard when moving to the next Fragment
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(),0);
             }
@@ -39,6 +62,7 @@ public class FragmentSearch extends Fragment {
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Move back to menu screen
                 ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_MENU);
             }
         });
