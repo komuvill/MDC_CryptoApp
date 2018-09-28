@@ -25,7 +25,17 @@ public class cryptoFetcher extends AsyncTask {
     private SimpelDigitalCurrencyData latestEntry;
     private boolean isFinished = false;
 
-    public cryptoFetcher(String currency){
+    fetcherInterface listener = null;
+
+    public cryptoFetcher(){
+
+    }
+
+    public void setListener(fetcherInterface listener){
+        this.listener = listener;
+    }
+
+    public void setSelectedCurrency(String currency){
         this.selectedCurrency = currency;
     }
 
@@ -50,6 +60,7 @@ public class cryptoFetcher extends AsyncTask {
             Log.d(TAG, "volume:     " + latestEntry.getVolume());
             Log.d(TAG, "market cap: " + latestEntry.getMarketCap());
             isFinished = true;
+            listener.finished(true);
         } catch (AlphaVantageException e) {
             System.out.println(e.getMessage());
         }
@@ -67,5 +78,9 @@ public class cryptoFetcher extends AsyncTask {
 
     public String getCurrentPrice(){
         return String.valueOf(latestEntry.getPriceA());
+    }
+
+    public interface fetcherInterface{
+        void finished(boolean result);
     }
 }

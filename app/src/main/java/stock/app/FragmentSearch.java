@@ -17,7 +17,7 @@ import android.widget.EditText;
 
 import java.util.Objects;
 
-public class FragmentSearch extends Fragment {
+public class FragmentSearch extends Fragment implements cryptoFetcher.fetcherInterface {
 
     private Button buttonSearch;
     private Button buttonBack;
@@ -32,31 +32,19 @@ public class FragmentSearch extends Fragment {
         buttonSearch = view.findViewById(R.id.buttonSearch);
         buttonBack = view.findViewById(R.id.buttonBackToMenu);
         editText = view.findViewById(R.id.editText);
+        String symbol = editText.getText().toString();
+        ((MainActivityTemp) Objects.requireNonNull(getActivity())).fetcher = (cryptoFetcher) new cryptoFetcher();
+        ((MainActivityTemp)getActivity()).fetcher.setListener(this);
+        buttonSearch.setOnClickListener(view1 -> {
+            String symbol1 = editText.getText().toString();
+            ((MainActivityTemp)getActivity()).fetcher.setSelectedCurrency(symbol1);
+            ((MainActivityTemp)getActivity()).fetcher.execute();
+            //Wait for the CryptoFetcher to finish work
 
-        buttonSearch.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                //TODO Send query to the API
-                String symbol = editText.getText().toString();
-                ((MainActivityTemp)getActivity()).fetcher = (cryptoFetcher) new cryptoFetcher(symbol).execute();
 
-                //Wait for the CryptoFetcher to finish work
-
-                /*
-                    TODO THIS IS BAD, CHANGE THE CRYPTOFETCHER CLASS SO THAT IS INVOKES onPostExecute
-                    T: MIKKO
-                 */
-                while(!((MainActivityTemp)getActivity()).fetcher.getFinishedStatus()){
-                    if(((MainActivityTemp)getActivity()).fetcher.getFinishedStatus()){
-                        ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_RESULTS);
-                        break;
-                    }
-                }
-
-                //Hide keyboard when moving to the next Fragment
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(),0);
-            }
+            //Hide keyboard when moving to the next Fragment
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view1.getWindowToken(),0);
         });
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
@@ -68,5 +56,14 @@ public class FragmentSearch extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void finished(boolean result) {
+        if(result){
+            ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_RESULTS);
+        } else {
+            System.out.println("Piellee män");
+        }
     }
 }

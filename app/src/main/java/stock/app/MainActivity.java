@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         fetchBtn = findViewById(R.id.buttonFetch);
         fetchBtn.setOnClickListener(v -> {
             String symbol = eText.getText().toString();
-            new cryptoFetcher(symbol).execute();
+            new cryptoFetcher().execute();
         });
     }
 }
