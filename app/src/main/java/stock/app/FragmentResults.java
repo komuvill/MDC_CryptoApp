@@ -25,6 +25,7 @@ public class FragmentResults extends Fragment {
     private Button buttonBack;
     private TextView shortCurrencyName;
     private TextView textViewPrice;
+    private TextView longCurrencyName;
     private String TAG = "FragmentResults";
     private IntraDay data;
 
@@ -41,7 +42,8 @@ public class FragmentResults extends Fragment {
             data = ((MainActivityTemp) Objects.requireNonNull(getActivity())).fetcher.getResult(); //haetaan data fetcheristä
 
             shortCurrencyName.setText(data.getMetaData().get("2. Digital Currency Code"));
-            textViewPrice.setText(String.valueOf(data.getDigitalData().get(0).getPriceA()));
+            longCurrencyName.setText(data.getMetaData().get("3. Digital Currency Name"));
+            textViewPrice.setText(String.format("%.2f", data.getDigitalData().get(0).getPriceA()));
         }
     }
 
@@ -54,7 +56,7 @@ public class FragmentResults extends Fragment {
         buttonBack = view.findViewById(R.id.buttonBackToSearch);
         shortCurrencyName = view.findViewById(R.id.textViewCurNameShort);
         textViewPrice = view.findViewById(R.id.textViewPrice);
-
+        longCurrencyName = view.findViewById(R.id.textViewCurNameLong);
 
         buttonGraph.setOnClickListener(new View.OnClickListener() {
             @Override
