@@ -13,7 +13,7 @@ import org.patriques.output.digitalcurrencies.data.SimpelDigitalCurrencyData;
 import java.util.List;
 import java.util.Map;
 
-public class cryptoFetcher extends AsyncTask {
+public class CryptoFetcher extends AsyncTask {
 
     String TAG = "API-KUTSUJEN TESTAUSTA";
     String apiKey = "3475H17";
@@ -23,64 +23,41 @@ public class cryptoFetcher extends AsyncTask {
     DigitalCurrencies digitalCurrencies = new DigitalCurrencies(apiConnector);
     private Map<String, String> metaData;
     private SimpelDigitalCurrencyData latestEntry;
-    private boolean isFinished = false;
+    private IntraDay result;
+    private ResultsCallback listener;
 
-    fetcherInterface listener = null;
-
-    public cryptoFetcher(){
-
+    public interface ResultsCallback {
+        void onRequestDone(boolean result);
     }
 
-    public void setListener(fetcherInterface listener){
+    public CryptoFetcher(ResultsCallback listener, String currency){
         this.listener = listener;
-    }
-
-    public void setSelectedCurrency(String currency){
         this.selectedCurrency = currency;
     }
 
-    //TODO GET TO onPostExecute AND CALL setViewPager method
+    public IntraDay getResult() {
+        return result;
+    }
 
-    /*
-        Paras olis ehkä muuttaa tämä luokka normaaliksi Threadiksi, koska FragmentResult:ia ei voi
-        asettaa näkyväksi ennen, kuin query on suoritettu ja tiedot ovat saatavilla. En tiiä.
-     */
     @Override
     protected Object doInBackground(Object[] objects) {
         try {
-            IntraDay response = digitalCurrencies.intraDay(selectedCurrency, Market.EUR);
-            metaData = response.getMetaData();
+            result = digitalCurrencies.intraDay(selectedCurrency, Market.EUR);
+            metaData = result.getMetaData();
             System.out.println("Information: " + metaData.get("1. Information"));
             System.out.println("Digital Currency Code: " + metaData.get("2. Digital Currency Code"));
-            List<SimpelDigitalCurrencyData> digitalData = response.getDigitalData();
+            List<SimpelDigitalCurrencyData> digitalData = result.getDigitalData();
             latestEntry = digitalData.get(0);
             Log.d(TAG, "date:       " + latestEntry.getDateTime());
             Log.d(TAG, "price A:    " + latestEntry.getPriceA());
             Log.d(TAG, "price B:    " + latestEntry.getPriceB());
             Log.d(TAG, "volume:     " + latestEntry.getVolume());
             Log.d(TAG, "market cap: " + latestEntry.getMarketCap());
-            isFinished = true;
-            listener.finished(true);
+            listener.onRequestDone(true);
         } catch (AlphaVantageException e) {
             System.out.println(e.getMessage());
+            listener.onRequestDone(false);
         }
         return objects;
-    }
-
-    public boolean getFinishedStatus(){
-        return isFinished;
-    }
-
-    public String getCurCode(){
-        isFinished = false;
-        return metaData.get("2. Digital Currency Code");
-    }
-
-    public String getCurrentPrice(){
-        return String.valueOf(latestEntry.getPriceA());
-    }
-
-    public interface fetcherInterface{
-        void finished(boolean result);
     }
 }

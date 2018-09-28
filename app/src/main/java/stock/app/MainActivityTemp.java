@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 public class MainActivityTemp extends AppCompatActivity {
 
@@ -14,7 +13,7 @@ public class MainActivityTemp extends AppCompatActivity {
     public static final int FRAGMENT_SEARCH = 1;
     public static final int FRAGMENT_RESULTS = 2;
     public static final int FRAGMENT_GRAPH = 3;
-    public cryptoFetcher fetcher;
+    public CryptoFetcher fetcher;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +33,6 @@ public class MainActivityTemp extends AppCompatActivity {
     }
 
     public void setViewPager(int fragmentNumber){
-        viewPager.setCurrentItem(fragmentNumber);
+        runOnUiThread(() -> viewPager.setCurrentItem(fragmentNumber));
     }
 }

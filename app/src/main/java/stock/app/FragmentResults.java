@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.patriques.output.digitalcurrencies.IntraDay;
+
 import java.util.Objects;
 
 public class FragmentResults extends Fragment {
@@ -24,6 +26,7 @@ public class FragmentResults extends Fragment {
     private TextView shortCurrencyName;
     private TextView textViewPrice;
     private String TAG = "FragmentResults";
+    private IntraDay data;
 
     /*
         Tällä hetkellä ulos saadaan tunnus ja hinta
@@ -35,8 +38,10 @@ public class FragmentResults extends Fragment {
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
         if(menuVisible){
-            setShortCurrencyName();
-            setTextViewPrice();
+            data = ((MainActivityTemp) Objects.requireNonNull(getActivity())).fetcher.getResult(); //haetaan data fetcheristä
+
+            shortCurrencyName.setText(data.getMetaData().get("2. Digital Currency Code"));
+            textViewPrice.setText(String.valueOf(data.getDigitalData().get(0).getPriceA()));
         }
     }
 
@@ -49,6 +54,7 @@ public class FragmentResults extends Fragment {
         buttonBack = view.findViewById(R.id.buttonBackToSearch);
         shortCurrencyName = view.findViewById(R.id.textViewCurNameShort);
         textViewPrice = view.findViewById(R.id.textViewPrice);
+
 
         buttonGraph.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,11 +75,13 @@ public class FragmentResults extends Fragment {
         return view;
     }
 
+    /*
+    //this is a problem
     public void setShortCurrencyName(){
         shortCurrencyName.setText(((MainActivityTemp) Objects.requireNonNull(getActivity())).fetcher.getCurCode());
     }
 
     public void setTextViewPrice(){
         textViewPrice.setText(((MainActivityTemp)getActivity()).fetcher.getCurrentPrice());
-    }
+    } */
 }

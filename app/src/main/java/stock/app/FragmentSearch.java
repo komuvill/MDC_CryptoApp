@@ -2,8 +2,8 @@ package stock.app;
 
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,10 +14,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import java.util.Objects;
+import org.patriques.output.digitalcurrencies.IntraDay;
 
-public class FragmentSearch extends Fragment implements cryptoFetcher.fetcherInterface {
+import java.util.Map;
+
+public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCallback {
 
     private Button buttonSearch;
     private Button buttonBack;
@@ -32,19 +35,14 @@ public class FragmentSearch extends Fragment implements cryptoFetcher.fetcherInt
         buttonSearch = view.findViewById(R.id.buttonSearch);
         buttonBack = view.findViewById(R.id.buttonBackToMenu);
         editText = view.findViewById(R.id.editText);
-        String symbol = editText.getText().toString();
-        ((MainActivityTemp) Objects.requireNonNull(getActivity())).fetcher = (cryptoFetcher) new cryptoFetcher();
-        ((MainActivityTemp)getActivity()).fetcher.setListener(this);
-        buttonSearch.setOnClickListener(view1 -> {
-            String symbol1 = editText.getText().toString();
-            ((MainActivityTemp)getActivity()).fetcher.setSelectedCurrency(symbol1);
-            ((MainActivityTemp)getActivity()).fetcher.execute();
-            //Wait for the CryptoFetcher to finish work
 
-
-            //Hide keyboard when moving to the next Fragment
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view1.getWindowToken(),0);
+        buttonSearch.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                //TODO Send query to the API
+                String symbol = editText.getText().toString();
+                sendRequest(symbol);
+            }
         });
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
@@ -58,12 +56,19 @@ public class FragmentSearch extends Fragment implements cryptoFetcher.fetcherInt
         return view;
     }
 
+    private void sendRequest(String str) {
+        ((MainActivityTemp)getActivity()).fetcher = (CryptoFetcher) new CryptoFetcher(this, str).execute();
+    }
+
     @Override
-    public void finished(boolean result) {
-        if(result){
+    public void onRequestDone(boolean result) {
+        if(!result) {
+            //TODO toast / edittext claiming search has failed
+        }
+        else {
             ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_RESULTS);
-        } else {
-            System.out.println("Piellee män");
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getView().getWindowToken(),0);
         }
     }
 }
