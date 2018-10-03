@@ -13,6 +13,7 @@ public class MainActivityTemp extends AppCompatActivity {
     public static final int FRAGMENT_SEARCH = 1;
     public static final int FRAGMENT_RESULTS = 2;
     public static final int FRAGMENT_GRAPH = 3;
+    public static final int FRAGMENT_CONVERTER = 4;
     public CryptoFetcher fetcher;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class MainActivityTemp extends AppCompatActivity {
         adapter.addFragment(new FragmentSearch(), "FragmentSearch");
         adapter.addFragment(new FragmentResults(), "FragmentResults");
         adapter.addFragment(new FragmentGraph(), "FragmentGraph");
+        adapter.addFragment(new FragmentConverter(), "FragmentConverter");
         viewPager.setAdapter(adapter);
     }
 
