@@ -28,7 +28,7 @@ public class FragmentMenu extends Fragment {
         buttonSearch.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_SEARCH);
+                ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_SEARCH);
             }
         });
 

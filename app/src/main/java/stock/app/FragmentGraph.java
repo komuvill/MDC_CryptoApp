@@ -26,7 +26,7 @@ public class FragmentGraph extends Fragment {
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_RESULTS);
+                ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_RESULTS);
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             }
         });

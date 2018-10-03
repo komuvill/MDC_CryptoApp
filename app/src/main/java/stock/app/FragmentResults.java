@@ -1,13 +1,11 @@
 package stock.app;
 
 
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +37,7 @@ public class FragmentResults extends Fragment {
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
         if(menuVisible){
-            data = ((MainActivityTemp) Objects.requireNonNull(getActivity())).fetcher.getResult(); //haetaan data fetcheristä
+            data = ((MainActivity) Objects.requireNonNull(getActivity())).fetcher.getResult(); //haetaan data fetcheristä
 
             shortCurrencyName.setText(data.getMetaData().get("2. Digital Currency Code"));
             longCurrencyName.setText(data.getMetaData().get("3. Digital Currency Name"));
@@ -62,7 +60,7 @@ public class FragmentResults extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO Graph view
-                ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_GRAPH);
+                ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_GRAPH);
                 //Set the orientation to landscape
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
@@ -71,7 +69,7 @@ public class FragmentResults extends Fragment {
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_SEARCH);
+                ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_SEARCH);
             }
         });
         return view;
@@ -80,10 +78,10 @@ public class FragmentResults extends Fragment {
     /*
     //this is a problem
     public void setShortCurrencyName(){
-        shortCurrencyName.setText(((MainActivityTemp) Objects.requireNonNull(getActivity())).fetcher.getCurCode());
+        shortCurrencyName.setText(((MainActivity) Objects.requireNonNull(getActivity())).fetcher.getCurCode());
     }
 
     public void setTextViewPrice(){
-        textViewPrice.setText(((MainActivityTemp)getActivity()).fetcher.getCurrentPrice());
+        textViewPrice.setText(((MainActivity)getActivity()).fetcher.getCurrentPrice());
     } */
 }
