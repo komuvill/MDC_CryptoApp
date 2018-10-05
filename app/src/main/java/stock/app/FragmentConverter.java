@@ -43,14 +43,14 @@ public class FragmentConverter extends Fragment implements CurrencyConverter.Res
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_results, container, false);
+        View view = inflater.inflate(R.layout.fragment_converter, container, false);
         Log.d(TAG, "Started.");
         fromCurrency = view.findViewById(R.id.editTextFromCurrency);
         toCurrency = view.findViewById(R.id.editTextToCurrency);
         convertedAmount = view.findViewById(R.id.editTextConvertedAmount);
         conversionResults = view.findViewById(R.id.textViewConversionResult);
 
-        convertButton = view.findViewById(R.id.buttonConvert);
+        convertButton = view.findViewById(R.id.buttonConversion);
         convertButton.setOnClickListener(v -> {
             from = fromCurrency.getText().toString();
             to = toCurrency.getText().toString();
@@ -79,9 +79,8 @@ public class FragmentConverter extends Fragment implements CurrencyConverter.Res
             exchangeData = ((MainActivity) Objects.requireNonNull(getActivity())).converter.getResult();
             exchangeRate = exchangeData.getExchangeRate();
             conversion = amount * exchangeRate;
-            String parsedString = amount + " " + from + " = " + conversion + " " + to;
+            String parsedString = amount + " " + from + " = " + String.format("%.2f", conversion).replace(",",".") + " " + to;
             conversionResults.setText(parsedString);
-
         }
     }
 }
