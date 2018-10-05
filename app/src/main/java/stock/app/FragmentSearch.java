@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCallback {
 
@@ -51,13 +52,18 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
     }
 
     private void sendRequest(String str) {
-        ((MainActivity)getActivity()).fetcher = (CryptoFetcher) new CryptoFetcher(this, str).execute();
+        ((MainActivity)getActivity()).fetcher = (CryptoFetcher) new CryptoFetcher(this, str.toUpperCase()).execute();
     }
 
     @Override
     public void onRequestDone(boolean result) {
         if(!result) {
-            //TODO toast / edittext claiming search has failed
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), "Search failed, check the symbol", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         else {
             ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_RESULTS);
