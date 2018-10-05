@@ -23,7 +23,7 @@
 
     <Button
         android:id="@+id/buttonSearchMenu"
-        android:layout_width="wrap_content"
+        android:layout_width="106dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="228dp"
@@ -35,7 +35,7 @@
 
     <Button
         android:id="@+id/buttonQuit"
-        android:layout_width="wrap_content"
+        android:layout_width="106dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -47,7 +47,7 @@
 
     <Button
         android:id="@+id/buttonConverter"
-        android:layout_width="wrap_content"
+        android:layout_width="106dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"

@@ -44,7 +44,8 @@ public class CurrencyConverter extends AsyncTask {
             result = exchange.getData();
             listener.onRequestDone(true);
         }catch(AlphaVantageException e){
-            Log.d(TAG, "Something's fucky: " + e.getMessage());
+            Log.d(TAG, "Something's fucky:");
+            e.printStackTrace();
             listener.onRequestDone(false);
         }
         return objects;
