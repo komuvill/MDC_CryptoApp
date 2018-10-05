@@ -3,7 +3,6 @@ package stock.app;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,11 +13,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import org.patriques.output.digitalcurrencies.IntraDay;
-
-import java.util.Map;
 
 public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCallback {
 
@@ -48,7 +42,7 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
             @Override
             public void onClick(View v) {
                 //Move back to menu screen
-                ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_MENU);
+                ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_MENU);
             }
         });
 
@@ -56,7 +50,7 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
     }
 
     private void sendRequest(String str) {
-        ((MainActivityTemp)getActivity()).fetcher = (CryptoFetcher) new CryptoFetcher(this, str).execute();
+        ((MainActivity)getActivity()).fetcher = (CryptoFetcher) new CryptoFetcher(this, str).execute();
     }
 
     @Override
@@ -67,7 +61,7 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
             Looper.prepare();
         }
         else {
-            ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_RESULTS);
+            ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_RESULTS);
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getView().getWindowToken(),0);
         }
