@@ -39,7 +39,6 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
         buttonSearch.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //TODO Send query to the API
                 String symbol = editText.getText().toString();
                 sendRequest(symbol);
             }
@@ -63,7 +62,9 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
     @Override
     public void onRequestDone(boolean result) {
         if(!result) {
-            //TODO toast / edittext claiming search has failed
+            Activity activity = this.getActivity();
+            Toast.makeText(activity,"Search failed",Toast.LENGTH_SHORT).show();
+            Looper.prepare();
         }
         else {
             ((MainActivityTemp)getActivity()).setViewPager(MainActivityTemp.FRAGMENT_RESULTS);
