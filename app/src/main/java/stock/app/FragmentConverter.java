@@ -14,17 +14,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class FragmentConverter extends Fragment {
+import org.patriques.output.exchange.data.CurrencyExchangeData;
+
+import java.util.Objects;
+
+public class FragmentConverter extends Fragment implements CurrencyConverter.ResultsCallback {
     private final String TAG = "Converter Fragment";
 
-    EditText fromCurrency;
-    EditText toCurrency;
-    EditText convertedAmount;
-    TextView conversionResults;
-    Button convertButton;
-    Button backButton;
-
+    private EditText fromCurrency;
+    private String from;
+    private EditText toCurrency;
+    private String to;
+    private EditText convertedAmount;
+    private double amount;
+    private double exchangeRate;
+    private double conversion;
+    private TextView conversionResults;
+    private Button convertButton;
+    private Button backButton;
+    private CurrencyExchangeData exchangeData;
 
     public FragmentConverter() {
         // Required empty public constructor
@@ -42,7 +52,11 @@ public class FragmentConverter extends Fragment {
 
         convertButton = view.findViewById(R.id.buttonConvert);
         convertButton.setOnClickListener(v -> {
-
+            from = fromCurrency.getText().toString();
+            to = toCurrency.getText().toString();
+            ((MainActivity)getActivity()).converter = (CurrencyConverter) new CurrencyConverter(this,
+                    from, to).execute();
+            amount = Double.parseDouble(convertedAmount.getText().toString());
         });
         backButton = view.findViewById(R.id.buttonBack);
         backButton.setOnClickListener(v -> {
@@ -50,5 +64,24 @@ public class FragmentConverter extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onRequestDone(boolean result) {
+        if(!result){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            exchangeData = ((MainActivity) Objects.requireNonNull(getActivity())).converter.getResult();
+            exchangeRate = exchangeData.getExchangeRate();
+            conversion = amount * exchangeRate;
+            String parsedString = amount + " " + from + " = " + conversion + " " + to;
+            conversionResults.setText(parsedString);
+
+        }
     }
 }

@@ -12,6 +12,6 @@
     <string name="to">To:</string>
     <string name="amount">Converted amount:</string>
     <string name="convert_btn">Convert!</string>
-    <string name="converter_usage">Conversion results will appear here.
+    <string name="converter_usage">Conversion results will appear here. \n
     Please note that both currencies can be either real or crypto currencies</string>
 </resources>

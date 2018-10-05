@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int FRAGMENT_GRAPH = 3;
     public static final int FRAGMENT_CONVERTER = 4;
     public CryptoFetcher fetcher;
+    public CurrencyConverter converter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
