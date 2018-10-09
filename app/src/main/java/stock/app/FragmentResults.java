@@ -84,24 +84,21 @@ public class FragmentResults extends Fragment {
             public void onClick(View v) {
                 //TODO Graph view
                 setRetainInstance(true);
-                double[] priceList;
-                String[] timeList;
+                int length = Math.min(cryptoData.getDigitalData().size(), 289);
+                double[] priceList = new double[length];
+                String[] timeList = new String[length];
                 if(switchState){
-                    priceList = new double[stockData.getStockData().size()];
-                    timeList = new String[stockData.getStockData().size()];
-                    for(int i = 0; i < stockData.getStockData().size(); i++){
-                        priceList[i] = stockData.getStockData().get(stockData.getStockData().size() - i - 1).getHigh();
-                        timeList[i] = stockData.getStockData().get(stockData.getStockData().size() - i - 1).getDateTime().toString();
+                    for(int i = 0; i < length; i++) {
+                        priceList[i] = stockData.getStockData().get(length - i - 1).getHigh();
+                        timeList[i] = stockData.getStockData().get(length - i - 1).getDateTime().toString();
                     }
                 }else{
-                    priceList = new double[cryptoData.getDigitalData().size()];
-                    timeList = new String[cryptoData.getDigitalData().size()];
-                    for(int i = 0; i < cryptoData.getDigitalData().size(); i++){
-                        priceList[i] = cryptoData.getDigitalData().get(cryptoData.getDigitalData().size() - i - 1).getPriceA();
-                        timeList[i] = cryptoData.getDigitalData().get(cryptoData.getDigitalData().size() - i - 1).getDateTime().toString();
+                    for(int i = 0; i < length; i++) {
+                        priceList[i] = cryptoData.getDigitalData().get(length - i - 1).getPriceA();
+                        timeList[i] = cryptoData.getDigitalData().get(length - i - 1).getDateTime().toString();
                     }
                 }
-                Intent intent = new Intent(getActivity(),FragmentGraph.class);
+                Intent intent = new Intent(getActivity(),ActivityGraph.class);
                 intent.putExtra("priceData", priceList);
                 intent.putExtra("timeData", timeList);
                 startActivity(intent);

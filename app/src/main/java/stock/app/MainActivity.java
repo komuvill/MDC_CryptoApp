@@ -12,8 +12,7 @@ public class MainActivity extends AppCompatActivity implements FragmentSearch.sw
     public static final int FRAGMENT_MENU = 0;
     public static final int FRAGMENT_SEARCH = 1;
     public static final int FRAGMENT_RESULTS = 2;
-    public static final int FRAGMENT_GRAPH = 3;
-    public static final int FRAGMENT_CONVERTER = 4;
+    public static final int FRAGMENT_CONVERTER = 3;
     public CryptoFetcher cFetcher;
     public CurrencyConverter converter;
     public StockFetcher sFetcher;
