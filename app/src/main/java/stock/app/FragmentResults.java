@@ -72,9 +72,9 @@ public class FragmentResults extends Fragment {
                 setRetainInstance(true);
                 double[] priceList = new double[data.getDigitalData().size()];
                 String[] timeList = new String[data.getDigitalData().size()];
-                for(int i = 0; i < data.getDigitalData().size();i++){
-                    priceList[i] = data.getDigitalData().get(i).getPriceA();
-                    timeList[i] = data.getDigitalData().get(i).getDateTime().toString();
+                for(int i = 0; i < data.getDigitalData().size(); i++){
+                    priceList[i] = data.getDigitalData().get(data.getDigitalData().size() - i - 1).getPriceA();
+                    timeList[i] = data.getDigitalData().get(data.getDigitalData().size() - i - 1).getDateTime().toString();
                 }
                 Intent intent = new Intent(getActivity(),FragmentGraph.class);
                 intent.putExtra("priceData", priceList);
