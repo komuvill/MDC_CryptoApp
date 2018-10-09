@@ -87,7 +87,7 @@ public class FragmentResults extends Fragment {
                         timeList[i] = cryptoData.getDigitalData().get(cryptoData.getDigitalData().size() - i - 1).getDateTime().toString();
                     }
                 }
-                Intent intent = new Intent(getActivity(),FragmentGraph.class);
+                Intent intent = new Intent(getActivity(),ActivityGraph.class);
                 intent.putExtra("priceData", priceList);
                 intent.putExtra("timeData", timeList);
                 startActivity(intent);
