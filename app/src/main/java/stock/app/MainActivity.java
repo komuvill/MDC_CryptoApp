@@ -8,13 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private SectionsStatePagerAdapter sectionsStatePagerAdapter;
-    private ViewPager viewPager;
+    private CustomPager viewPager;
     public static final int FRAGMENT_MENU = 0;
     public static final int FRAGMENT_SEARCH = 1;
     public static final int FRAGMENT_RESULTS = 2;
     public static final int FRAGMENT_GRAPH = 3;
     public static final int FRAGMENT_CONVERTER = 4;
     public CryptoFetcher fetcher;
+    public CurrencyConverter converter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

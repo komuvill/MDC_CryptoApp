@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewConvertedAmount" />
 
     <Button
-        android:id="@+id/buttonConvert"
+        android:id="@+id/buttonConversion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -86,15 +86,16 @@
 
     <TextView
         android:id="@+id/textViewConversionResult"
-        android:layout_width="364dp"
+        android:layout_width="0dp"
         android:layout_height="179dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="32dp"
+        android:textSize="24dp"
         android:text="@string/converter_usage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonConvert" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonConversion" />
 
     <Button
         android:id="@+id/buttonBack"

@@ -46,7 +46,7 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
     }
 
     private void sendRequest(String str) {
-        ((MainActivity)getActivity()).fetcher = (CryptoFetcher) new CryptoFetcher(this, str).execute();
+        ((MainActivity)getActivity()).fetcher = (CryptoFetcher) new CryptoFetcher(this, str.toUpperCase()).execute();
     }
 
     @Override

@@ -3,15 +3,17 @@
     <string name="info_text">Welcome to CryptoApp!</string>
     <string name="search_btn">Search</string>
     <string name="quit_btn">Quit</string>
-    <string name="search_hint">Name of the crypto currency</string>
+    <string name="converter_btn">Converter</string>
+    <string name="search_hint">Crypto/Stock Symbol</string>
     <string name="graph">Graph</string>
     <string name="back_btn">Back</string>
+    <string name="switch_on">Crypto</string>
+    <string name="switch_off">Stock</string>
     <string name="cur_price">Current price (EUR)</string>
     <string name="from">From:</string>
     <string name="converter_hint">Currency Symbol (e.g EUR or BTC)</string>
     <string name="to">To:</string>
     <string name="amount">Converted amount:</string>
     <string name="convert_btn">Convert!</string>
-    <string name="converter_usage">Conversion results will appear here.
-    Please note that both currencies can be either real or crypto currencies</string>
+    <string name="converter_usage">Conversion results will appear here.\nPlease note that both currencies can be either real or crypto currencies</string>
 </resources>

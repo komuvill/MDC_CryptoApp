@@ -15,14 +15,12 @@ import java.util.Map;
 
 public class CryptoFetcher extends AsyncTask {
 
-    String TAG = "API-KUTSUJEN TESTAUSTA";
+    String TAG = "CryptoFetcher";
     String apiKey = "3475H17";
     String selectedCurrency = "";
     int timeout = 3000;
     AlphaVantageConnector apiConnector = new AlphaVantageConnector(apiKey, timeout);
     DigitalCurrencies digitalCurrencies = new DigitalCurrencies(apiConnector);
-    private Map<String, String> metaData;
-    private SimpelDigitalCurrencyData latestEntry;
     private IntraDay result;
     private ResultsCallback listener;
 
@@ -45,7 +43,7 @@ public class CryptoFetcher extends AsyncTask {
             result = digitalCurrencies.intraDay(selectedCurrency, Market.EUR);
             listener.onRequestDone(true);
         } catch (AlphaVantageException e) {
-            System.out.println(e.getMessage());
+            Log.d(TAG, "Vituixmän: " + e.getMessage());
             listener.onRequestDone(false);
         }
         return objects;
