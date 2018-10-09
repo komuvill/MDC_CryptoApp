@@ -2,8 +2,8 @@ package stock.app;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,14 +14,23 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
-public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCallback {
+public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCallback , StockFetcher.ResultsCallback {
+
+    switchStateInterface mCallback;
 
     private Button buttonSearch;
     private Button buttonBack;
+    private Switch searchSwitch;
     private EditText editText;
+    protected boolean switchState;
     private String TAG = "FragmentSearch";
+
+    public interface switchStateInterface{
+        public void onRequestSent(boolean state);
+    }
 
     @Nullable
     @Override
@@ -30,11 +39,18 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
         Log.d(TAG, "Started.");
         buttonSearch = view.findViewById(R.id.buttonSearch);
         buttonBack = view.findViewById(R.id.buttonBackToMenu);
+        searchSwitch = view.findViewById(R.id.searchSwitch);
         editText = view.findViewById(R.id.editText);
 
         buttonSearch.setOnClickListener(view1 -> {
             String symbol = editText.getText().toString();
-            sendRequest(symbol);
+            switchState = searchSwitch.isChecked();
+            if(switchState){
+                sendStockRequest(symbol);
+            }else{
+                sendCryptoRequest(symbol);
+            }
+            mCallback.onRequestSent(switchState);
         });
 
         buttonBack.setOnClickListener(v -> {
@@ -45,8 +61,12 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
         return view;
     }
 
-    private void sendRequest(String str) {
-        ((MainActivity)getActivity()).fetcher = (CryptoFetcher) new CryptoFetcher(this, str.toUpperCase()).execute();
+    private void sendCryptoRequest(String str) {
+        ((MainActivity)getActivity()).cFetcher = (CryptoFetcher) new CryptoFetcher(this, str.toUpperCase()).execute();
+    }
+
+    private void sendStockRequest(String str){
+        ((MainActivity)getActivity()).sFetcher = (StockFetcher) new StockFetcher(this, str.toUpperCase()).execute();
     }
 
     @Override
@@ -60,6 +80,20 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
             ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_RESULTS);
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getView().getWindowToken(),0);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        Activity main;
+        if(context instanceof Activity){
+            main = (Activity) context;
+            try{
+                mCallback = (switchStateInterface) main;
+            }catch(ClassCastException e){
+                e.printStackTrace();
+            }
         }
     }
 }
