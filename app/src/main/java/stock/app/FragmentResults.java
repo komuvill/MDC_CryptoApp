@@ -24,6 +24,7 @@ public class FragmentResults extends Fragment {
     private TextView textViewPrice;
     private TextView longName;
     private TextView description;
+    private TextView priceDescription;
     private boolean switchState;
     private String TAG = "FragmentResults";
     private org.patriques.output.digitalcurrencies.IntraDay cryptoData;
@@ -44,6 +45,7 @@ public class FragmentResults extends Fragment {
                     stockData = ((MainActivity) Objects.requireNonNull(getActivity())).sFetcher.getResult();
                     shortName.setText(stockData.getMetaData().get("2. Symbol"));
                     longName.setText("Stock Symbol");
+                    priceDescription.setText("Current Price ($)");
                     textViewPrice.setText(String.format("%.2f", stockData.getStockData().get(0).getHigh()));
                     description.setText("Complete data for newest entry at: " + stockData.getStockData().get(0).getDateTime().toString() +"\n");
                     description.append("Open: " + stockData.getStockData().get(0).getOpen() + "\n");
@@ -53,6 +55,7 @@ public class FragmentResults extends Fragment {
                     description.append("Volume: " + stockData.getStockData().get(0).getVolume() + "\n");
                 }else{
                     cryptoData = ((MainActivity) Objects.requireNonNull(getActivity())).cFetcher.getResult();
+                    priceDescription.setText("Current Price (EUR)");
                     shortName.setText(cryptoData.getMetaData().get("2. Digital Currency Code"));
                     longName.setText(cryptoData.getMetaData().get("3. Digital Currency Name"));
                     textViewPrice.setText(String.format("%.2f", cryptoData.getDigitalData().get(0).getPriceA()));
@@ -78,6 +81,7 @@ public class FragmentResults extends Fragment {
         textViewPrice = view.findViewById(R.id.textViewPrice);
         longName = view.findViewById(R.id.textViewCurNameLong);
         description = view.findViewById(R.id.textViewDescription);
+        priceDescription = view.findViewById(R.id.textViewPriceDescription);
 
         buttonGraph.setOnClickListener(new View.OnClickListener() {
             @Override
