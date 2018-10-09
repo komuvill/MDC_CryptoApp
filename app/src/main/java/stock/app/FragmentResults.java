@@ -70,7 +70,11 @@ public class FragmentResults extends Fragment {
             public void onClick(View v) {
                 //TODO Graph view
                 setRetainInstance(true);
-                int length = Math.min(cryptoData.getDigitalData().size(), 289);
+                int length;
+                if(switchState)
+                    length = Math.min(stockData.getStockData().size(), 289);
+                else
+                    length = Math.min(cryptoData.getDigitalData().size(), 289);
                 double[] priceList = new double[length];
                 String[] timeList = new String[length];
                 if(switchState){
