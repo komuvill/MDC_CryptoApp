@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FragmentMenu(), "FragmentMenu"); //First fragment added to the list will be the first one to be inflated
         adapter.addFragment(new FragmentSearch(), "FragmentSearch");
         adapter.addFragment(new FragmentResults(), "FragmentResults");
-        adapter.addFragment(new FragmentGraph(), "FragmentGraph");
-        adapter.addFragment(new FragmentConverter(), "FragmentConverter");
+        //adapter.addFragment(new FragmentGraph(), "FragmentGraph");
+        //adapter.addFragment(new FragmentConverter(), "FragmentConverter");
         viewPager.setAdapter(adapter);
     }
 

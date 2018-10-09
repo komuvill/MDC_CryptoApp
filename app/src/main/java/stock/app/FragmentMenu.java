@@ -35,7 +35,6 @@ public class FragmentMenu extends Fragment {
         buttonQuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO quit the app
                 System.exit(1);
             }
         });

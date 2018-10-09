@@ -3,6 +3,7 @@ package stock.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCallback {
 
@@ -30,20 +32,14 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
         buttonBack = view.findViewById(R.id.buttonBackToMenu);
         editText = view.findViewById(R.id.editText);
 
-        buttonSearch.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                String symbol = editText.getText().toString();
-                sendRequest(symbol);
-            }
+        buttonSearch.setOnClickListener(view1 -> {
+            String symbol = editText.getText().toString();
+            sendRequest(symbol);
         });
 
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Move back to menu screen
-                ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_MENU);
-            }
+        buttonBack.setOnClickListener(v -> {
+            //Move back to menu screen
+            ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_MENU);
         });
 
         return view;
@@ -56,9 +52,9 @@ public class FragmentSearch extends Fragment implements CryptoFetcher.ResultsCal
     @Override
     public void onRequestDone(boolean result) {
         if(!result) {
-            Activity activity = this.getActivity();
-            Toast.makeText(activity,"Search failed",Toast.LENGTH_SHORT).show();
-            Looper.prepare();
+            Activity activity = getActivity();
+            activity.runOnUiThread(() ->
+                    Toast.makeText(activity,"Search failed! Check your currency symbol.", Toast.LENGTH_SHORT).show());
         }
         else {
             ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_RESULTS);

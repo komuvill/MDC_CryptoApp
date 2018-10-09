@@ -1,8 +1,11 @@
 package stock.app;
 
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,7 +17,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.patriques.output.digitalcurrencies.IntraDay;
+import org.patriques.output.digitalcurrencies.data.SimpelDigitalCurrencyData;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class FragmentResults extends Fragment {
@@ -37,7 +43,9 @@ public class FragmentResults extends Fragment {
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
         if(menuVisible){
-            data = ((MainActivity) Objects.requireNonNull(getActivity())).fetcher.getResult(); //haetaan data fetcheristä
+            if(!getRetainInstance()){
+                data = ((MainActivity) Objects.requireNonNull(getActivity())).fetcher.getResult(); //haetaan data fetcheristä
+            }
 
             shortCurrencyName.setText(data.getMetaData().get("2. Digital Currency Code"));
             longCurrencyName.setText(data.getMetaData().get("3. Digital Currency Name"));
@@ -50,6 +58,7 @@ public class FragmentResults extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_results, container, false);
         Log.d(TAG, "Started.");
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         buttonGraph = view.findViewById(R.id.buttonShowGraph);
         buttonBack = view.findViewById(R.id.buttonBackToSearch);
         shortCurrencyName = view.findViewById(R.id.textViewCurNameShort);
@@ -60,28 +69,27 @@ public class FragmentResults extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO Graph view
-                ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_GRAPH);
-                //Set the orientation to landscape
-                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                setRetainInstance(true);
+                double[] priceList = new double[data.getDigitalData().size()];
+                String[] timeList = new String[data.getDigitalData().size()];
+                for(int i = 0; i < data.getDigitalData().size();i++){
+                    priceList[i] = data.getDigitalData().get(i).getPriceA();
+                    timeList[i] = data.getDigitalData().get(i).getDateTime().toString();
+                }
+                Intent intent = new Intent(getActivity(),FragmentGraph.class);
+                intent.putExtra("priceData", priceList);
+                intent.putExtra("timeData", timeList);
+                startActivity(intent);
             }
         });
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setRetainInstance(false);
                 ((MainActivity)getActivity()).setViewPager(MainActivity.FRAGMENT_SEARCH);
             }
         });
         return view;
     }
-
-    /*
-    //this is a problem
-    public void setShortCurrencyName(){
-        shortCurrencyName.setText(((MainActivity) Objects.requireNonNull(getActivity())).fetcher.getCurCode());
-    }
-
-    public void setTextViewPrice(){
-        textViewPrice.setText(((MainActivity)getActivity()).fetcher.getCurrentPrice());
-    } */
 }
