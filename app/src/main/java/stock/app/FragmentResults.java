@@ -70,12 +70,22 @@ public class FragmentResults extends Fragment {
             public void onClick(View v) {
                 //TODO Graph view
                 setRetainInstance(true);
-
-                double[] priceList = new double[cryptoData.getDigitalData().size()];
-                String[] timeList = new String[cryptoData.getDigitalData().size()];
-                for(int i = 0; i < cryptoData.getDigitalData().size(); i++){
-                    priceList[i] = cryptoData.getDigitalData().get(cryptoData.getDigitalData().size() - i - 1).getPriceA();
-                    timeList[i] = cryptoData.getDigitalData().get(cryptoData.getDigitalData().size() - i - 1).getDateTime().toString();
+                double[] priceList;
+                String[] timeList;
+                if(switchState){
+                    priceList = new double[stockData.getStockData().size()];
+                    timeList = new String[stockData.getStockData().size()];
+                    for(int i = 0; i < stockData.getStockData().size(); i++){
+                        priceList[i] = stockData.getStockData().get(stockData.getStockData().size() - i - 1).getHigh();
+                        timeList[i] = stockData.getStockData().get(stockData.getStockData().size() - i - 1).getDateTime().toString();
+                    }
+                }else{
+                    priceList = new double[cryptoData.getDigitalData().size()];
+                    timeList = new String[cryptoData.getDigitalData().size()];
+                    for(int i = 0; i < cryptoData.getDigitalData().size(); i++){
+                        priceList[i] = cryptoData.getDigitalData().get(cryptoData.getDigitalData().size() - i - 1).getPriceA();
+                        timeList[i] = cryptoData.getDigitalData().get(cryptoData.getDigitalData().size() - i - 1).getDateTime().toString();
+                    }
                 }
                 Intent intent = new Intent(getActivity(),FragmentGraph.class);
                 intent.putExtra("priceData", priceList);
