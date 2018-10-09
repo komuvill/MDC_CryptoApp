@@ -23,6 +23,7 @@ public class FragmentResults extends Fragment {
     private TextView shortName;
     private TextView textViewPrice;
     private TextView longName;
+    private TextView description;
     private boolean switchState;
     private String TAG = "FragmentResults";
     private org.patriques.output.digitalcurrencies.IntraDay cryptoData;
@@ -42,12 +43,24 @@ public class FragmentResults extends Fragment {
                 if(switchState){
                     stockData = ((MainActivity) Objects.requireNonNull(getActivity())).sFetcher.getResult();
                     shortName.setText(stockData.getMetaData().get("2. Symbol"));
+                    longName.setText("Stock Symbol");
                     textViewPrice.setText(String.format("%.2f", stockData.getStockData().get(0).getHigh()));
+                    description.setText("Complete data for newest entry at: " + stockData.getStockData().get(0).getDateTime().toString() +"\n");
+                    description.append("Open: " + stockData.getStockData().get(0).getOpen() + "\n");
+                    description.append("High: " + stockData.getStockData().get(0).getHigh() + "\n");
+                    description.append("Low: " + stockData.getStockData().get(0).getLow() + "\n");
+                    description.append("Close: " + stockData.getStockData().get(0).getClose() + "\n");
+                    description.append("Volume: " + stockData.getStockData().get(0).getVolume() + "\n");
                 }else{
                     cryptoData = ((MainActivity) Objects.requireNonNull(getActivity())).cFetcher.getResult();
                     shortName.setText(cryptoData.getMetaData().get("2. Digital Currency Code"));
                     longName.setText(cryptoData.getMetaData().get("3. Digital Currency Name"));
                     textViewPrice.setText(String.format("%.2f", cryptoData.getDigitalData().get(0).getPriceA()));
+                    description.setText("Complete data for newest entry at: " + cryptoData.getDigitalData().get(0).getDateTime().toString() + "\n");
+                    description.append("Price A: " + cryptoData.getDigitalData().get(0).getPriceA() + "\n");
+                    description.append("Price B: " +  cryptoData.getDigitalData().get(0).getPriceB() + "\n");
+                    description.append("Volume: " +  cryptoData.getDigitalData().get(0).getVolume() + "\n");
+                    description.append("Market Cap: " +  cryptoData.getDigitalData().get(0).getMarketCap() + "\n");
                 }
             }
         }
@@ -64,6 +77,7 @@ public class FragmentResults extends Fragment {
         shortName = view.findViewById(R.id.textViewCurNameShort);
         textViewPrice = view.findViewById(R.id.textViewPrice);
         longName = view.findViewById(R.id.textViewCurNameLong);
+        description = view.findViewById(R.id.textViewDescription);
 
         buttonGraph.setOnClickListener(new View.OnClickListener() {
             @Override
