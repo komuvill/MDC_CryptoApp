@@ -73,11 +73,18 @@ public class FragmentResults extends Fragment {
                 int length = Math.min(cryptoData.getDigitalData().size(), 289);
                 double[] priceList = new double[length];
                 String[] timeList = new String[length];
-                for(int i = 0; i < length; i++){
-                    priceList[i] = cryptoData.getDigitalData().get(length - i - 1).getPriceA();
-                    timeList[i] = cryptoData.getDigitalData().get(length - i - 1).getDateTime().toString();
+                if(switchState){
+                    for(int i = 0; i < length; i++) {
+                        priceList[i] = stockData.getStockData().get(length - i - 1).getHigh();
+                        timeList[i] = stockData.getStockData().get(length - i - 1).getDateTime().toString();
+                    }
+                }else{
+                    for(int i = 0; i < length; i++) {
+                        priceList[i] = cryptoData.getDigitalData().get(length - i - 1).getPriceA();
+                        timeList[i] = cryptoData.getDigitalData().get(length - i - 1).getDateTime().toString();
+                    }
                 }
-                Intent intent = new Intent(getActivity(),FragmentGraph.class);
+                Intent intent = new Intent(getActivity(),ActivityGraph.class);
                 intent.putExtra("priceData", priceList);
                 intent.putExtra("timeData", timeList);
                 startActivity(intent);
