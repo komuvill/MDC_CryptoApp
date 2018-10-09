@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -32,7 +33,6 @@ import java.util.Objects;
 public class FragmentGraph extends AppCompatActivity {
 
     private String TAG = "FragmentGraph";
-    private IntraDay data;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,21 +45,25 @@ public class FragmentGraph extends AppCompatActivity {
         Intent intent = getIntent();
         double[] priceData = intent.getExtras().getDoubleArray("priceData");
         String[] timeData = intent.getExtras().getStringArray("timeData");
-        System.out.println(timeData[0]);
         GraphView graphView = findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
-        for(int i = priceData.length - 1; i >= 0; i--) {
+        for(int i = 0; i < priceData.length; i++) {
             Date date = new Date();
             try{
                 date = parser.parse(timeData[i]);
-                System.out.println(date);
+                if(i == 0)
+                    graphView.getViewport().setMinX(date.getTime());
+                else if(i == priceData.length - 1)
+                    graphView.getViewport().setMaxX(date.getTime());
             }catch (ParseException e) {
                 e.printStackTrace();
             }
-            series.appendData(new DataPoint(date.getTime(), priceData[i]),false,priceData.length);
+            series.appendData(new DataPoint(date, priceData[i]),false,priceData.length);
         }
         graphView.getViewport().setXAxisBoundsManual(true);
-        graphView.getViewport().setMaxX(priceData.length);
+        graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(graphView.getContext(), new SimpleDateFormat("MM/dd HH:mm")));
+        graphView.getGridLabelRenderer().setHumanRounding(false);
+        graphView.getGridLabelRenderer().setNumHorizontalLabels(4);
         graphView.addSeries(series);
     }
 }
