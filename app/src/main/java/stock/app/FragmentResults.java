@@ -70,11 +70,12 @@ public class FragmentResults extends Fragment {
             public void onClick(View v) {
                 //TODO Graph view
                 setRetainInstance(true);
-                double[] priceList = new double[data.getDigitalData().size()];
-                String[] timeList = new String[data.getDigitalData().size()];
-                for(int i = 0; i < data.getDigitalData().size();i++){
-                    priceList[i] = data.getDigitalData().get(i).getPriceA();
-                    timeList[i] = data.getDigitalData().get(i).getDateTime().toString();
+                int length = Math.min(data.getDigitalData().size(), 289);
+                double[] priceList = new double[length];
+                String[] timeList = new String[length];
+                for(int i = 0; i < length; i++){
+                    priceList[i] = data.getDigitalData().get(length - i - 1).getPriceA();
+                    timeList[i] = data.getDigitalData().get(length - i - 1).getDateTime().toString();
                 }
                 Intent intent = new Intent(getActivity(),FragmentGraph.class);
                 intent.putExtra("priceData", priceList);
