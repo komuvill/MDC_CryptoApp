@@ -1,8 +1,5 @@
 package stock.app;
 
-import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

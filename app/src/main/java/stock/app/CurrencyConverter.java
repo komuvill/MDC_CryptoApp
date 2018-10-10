@@ -9,8 +9,6 @@ import org.patriques.output.AlphaVantageException;
 import org.patriques.output.exchange.CurrencyExchange;
 import org.patriques.output.exchange.data.CurrencyExchangeData;
 
-import java.util.Map;
-
 public class CurrencyConverter extends AsyncTask {
 
     final String TAG = "CurrencyConverter";

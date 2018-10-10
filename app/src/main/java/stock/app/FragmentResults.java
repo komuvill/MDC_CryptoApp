@@ -30,10 +30,6 @@ public class FragmentResults extends Fragment {
     private org.patriques.output.digitalcurrencies.IntraDay cryptoData;
     private org.patriques.output.timeseries.IntraDay stockData;
 
-    /*
-        Tällä hetkellä ulos saadaan tunnus ja hinta
-     */
-
     //Called when the fragment becomes visible
     @Override
     public void setMenuVisibility(boolean menuVisible) {
@@ -86,7 +82,6 @@ public class FragmentResults extends Fragment {
         buttonGraph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Graph view
                 setRetainInstance(true);
                 int length;
                 if(switchState)

@@ -1,0 +1,9 @@
+- As a user I can search for the latest price of a cryptocurrency
+- As a user I can search for the latest price of a stock listed in NY Stock Market
+- As a user I can see complete fetched values of the latest cryptocurrency entry (Price A, Price B, Volume, Market Cap)
+- As a user I can see complete fetched values of the latest stock entry (Open, High, Low and Close prices and also Volume)
+- As a user I can graph the value changes of a cryptocurrency from a time range of few days
+- As a user I can graph the value changes of a stock from a time range of few days
+- As a user I can make price conversions between cryptocurrencies
+- As a user I can make price conversions between real world currencies
+- As a user I can make price conversion between real world and cryptocurrencies
